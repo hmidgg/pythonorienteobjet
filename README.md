@@ -95,8 +95,73 @@ pytest
 
 Nous utiliserons `pytest` pour valider le bon fonctionnement des classes et de la logique du projet au fur et à mesure de son évolution.
 
+## Encapsulation et propriétés en Python
+
+L’encapsulation permet de contrôler l’accès aux attributs d’un objet.
+
+### 1. Visibilité des attributs
+
+- Public : `nom` → accessible partout.
+- Protégé : `_nom` → convention indiquant qu’il est réservé à la classe et aux classes filles.
+- Privé : `__energie` → Python le renomme automatiquement en `_Classe__energie`, ce qui le protège des accès directs.
+
+### 2. Pourquoi utiliser `@property` ?
+
+Une propriété permet de lire un attribut comme s’il était public, tout en gardant un contrôle sur sa modification.
+
+```python
+class Chat:
+    def __init__(self, nom, energie=100):
+        self._nom = nom
+        self.__energie = energie
+
+    @property
+    def energie(self):
+        return self.__energie
+
+    @energie.setter
+    def energie(self, valeur):
+        self.__energie = max(0, min(100, valeur))
+```
+
+Ici, on peut écrire :
+
+```python
+chat.energie = 500
+print(chat.energie)   # 100
+```
+
+La valeur est automatiquement limitée à 0..100.
+
+### 3. Exemple appliqué au projet
+
+Dans la classe `Personnage` :
+
+- `_nom` et `_humeur` sont protégés
+- `__energie` est privé
+- `nom` et `humeur` sont en lecture seule
+- `energie` a un getter/setter qui utilise `borner()`
+
+Exemple :
+
+```python
+p = Personnage("A", 40, 70)
+print(p)                  # A (énergie=40, humeur=70)
+print(repr(p))            # Personnage('A', energie=40)
+print(p.energie)          # 40
+p.energie = 500
+print(p.energie)         # 100
+```
+
+### 4. Différence entre `public`, `protected` et `private`
+
+- `public` : accessible directement sans restriction.
+- `protected` : accès autorisé à la classe et aux sous-classes.
+- `private` : accès uniquement interne à la classe, via les méthodes/propriétés.
+
+Cela permet de mieux protéger les données et d’éviter les modifications accidentelles.
+
 ## État du projet
 
 Le projet est en cours de développement et sera complété progressivement
-
 
