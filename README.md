@@ -97,6 +97,6 @@ Nous utiliserons `pytest` pour valider le bon fonctionnement des classes et de l
 
 ## État du projet
 
-Le projet est en cours de développement et sera complété progressivement, inchallah.
+Le projet est en cours de développement et sera complété progressivement
 
 
